@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -10,15 +11,16 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterComponent {
   user: any = {
-    username: '',
+    name: '',
     email: '',
     password: '',
   };
 
   constructor(private authService: AuthService) {}
 
-  register() {
-    this.authService.register(this.user).subscribe(
+  register(name: string, email: string, password: string) {
+    var obj = new SignUpRequestBean(name, email, password);
+    this.authService.register(obj).subscribe(
       (response) => {
         console.log('Registration successful:', response);
       },
@@ -26,5 +28,17 @@ export class RegisterComponent {
         console.error('Registration failed:', error);
       }
     );
+  }
+}
+
+class SignUpRequestBean{
+  name: string="";
+  email: string="";
+  password: string = "";
+  constructor(name: string, email: string, password: string)
+  {
+    this.name = name;
+    this.email = email;
+    this.password = password;
   }
 }

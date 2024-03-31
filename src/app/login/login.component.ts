@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,16 +16,16 @@ export class LoginComponent {
   goToSuccessPage() {
     this.router.navigate(['/success']);
   }
-  credentials: any = {
-    username: '',
-    password: '',
-  };
+ 
 
-  login() {
-    this.authService.login(this.credentials).subscribe(
+  login( username: string,
+    password: string) {
+    var obj = new LoginRequestBean(username,password);
+    this.authService.login(obj).subscribe(
       (response) => {
         // Handle successful login
         console.error('login successful:', response);
+       this.goToSuccessPage();
       },
       (error) => {
         // Handle login error
@@ -32,4 +33,15 @@ export class LoginComponent {
       }
     );
   }
+}
+
+class LoginRequestBean{
+  loginId: string = '';
+  password: string = '';
+
+  constructor(loginId: string, password: string) {
+    this.loginId = loginId;
+    this.password = password;
+  }
+
 }
