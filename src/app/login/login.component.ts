@@ -14,7 +14,7 @@ export class LoginComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   goToSuccessPage() {
-    this.router.navigate(['/success']);
+    this.router.navigate(['/home']);
   }
  
 
@@ -25,6 +25,7 @@ export class LoginComponent {
       (response) => {
         // Handle successful login
         console.error('login successful:', response);
+        AuthService.userId = username;
        this.goToSuccessPage();
       },
       (error) => {

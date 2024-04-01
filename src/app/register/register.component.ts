@@ -10,16 +10,23 @@ import { AuthService } from '../auth.service';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  user: any = {
-    name: '',
-    email: '',
-    password: '',
-  };
+  gender: string = '';
 
   constructor(private authService: AuthService) {}
 
-  register(name: string, email: string, password: string) {
-    var obj = new SignUpRequestBean(name, email, password);
+  register(name: string, email: string, password: string,username: string ,
+    phone_number: string) {
+    
+    if (this.gender.length == 0)
+    {
+      alert("please select gender");
+      return;
+      }
+    
+    var obj: any = '';
+    
+      obj = new SignUpRequestBean(name, email, password, username, phone_number,this.gender);
+   
     this.authService.register(obj).subscribe(
       (response) => {
         console.log('Registration successful:', response);
@@ -29,16 +36,43 @@ export class RegisterComponent {
       }
     );
   }
+
+onItemChangeMale(){
+  
+  this.gender = "Male";
+}
+  
+onItemChangeFemale(){
+  
+  this.gender = "Female";
+}
+  
+onItemChangeOther(){
+   this.gender = "Prefer not to say";
+}
 }
 
-class SignUpRequestBean{
-  name: string="";
-  email: string="";
+
+export class SignUpRequestBean{
+  id: number= 0;
+  full_name: string = "";
+   username: string = "";
+  email: string = "";
+  phone_number: string = "";
   password: string = "";
-  constructor(name: string, email: string, password: string)
+  gender: string = "";
+
+
+  constructor(full_name: string, email: string, password: string,username: string ,
+  phone_number: string ,
+  gender: string )
   {
-    this.name = name;
+    this.full_name = full_name;
     this.email = email;
     this.password = password;
+    this.username = username;
+    this.phone_number = phone_number;
+    this.gender = gender;
+
   }
 }
